@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Team Futrix MFUX Concept</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-gray-100 text-gray-800">
+
+    <div class="main-layout">
+        
+        <header id="static-header">
+            <img src="assets/static-website-header.png" alt="MakeMyTrip Header" class="w-full h-full object-cover" onerror="this.style.display='none'">
+        </header>
+        
+        <div id="content-area">
+            <main id="map-container">
+                <div id="heatmap-container"></div>
+                <div id="poi-marker-container"></div>
+                <div id="marker-container"></div>
+                <div id="ripple-container"></div>
+
+                <div id="event-search-overlay" class="hidden absolute inset-0 bg-black/50 z-40 flex items-center justify-center p-4">
+                    <div class="glassy p-6 rounded-2xl w-full max-w-md">
+                        <h3 class="font-bold text-lg mb-4">Search for Events</h3>
+                        <input id="event-search-input" type="text" class="bg-gray-100 border border-gray-300 text-gray-800 p-2 rounded-md w-full" placeholder="e.g., concert, festival...">
+                        <div id="event-search-results" class="mt-4 space-y-2"></div>
+                    </div>
+                </div>
+
+                <div id="l1_filters" class="absolute top-1/2 -translate-y-1/2 right-4 flex flex-col items-center space-y-3 z-30">
+                    <div class="filter-popup-container">
+                        <button class="heatmap-toggle bg-white hover:bg-opacity-75 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all" data-heatmap="attractions" title="Attractions"><i class="fa-solid fa-star text-xl"></i></button>
+                        <div class="filter-popup">
+                            <div class="glassy p-4">
+                                <p class="font-bold mb-3">Filter Attractions</p>
+                                <div id="attraction-subfilters" class="flex flex-wrap gap-2 mb-3"></div>
+                                <button id="add-event-btn" class="text-sm text-blue-500 hover:text-blue-400 w-full text-left mt-2">+ Add Live Events</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-popup-container">
+                        <button class="heatmap-toggle bg-white hover:bg-opacity-75 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all" data-heatmap="connectivity" title="Connectivity"><i class="fa-solid fa-train-subway text-xl"></i></button>
+                        <div class="filter-popup">
+                            <div class="glassy p-4">
+                                <p class="font-bold mb-3">Filter Connectivity</p>
+                                <div id="connectivity-subfilters" class="flex flex-wrap gap-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-popup-container">
+                        <button class="heatmap-toggle bg-white hover:bg-opacity-75 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all" data-heatmap="amenities" title="Amenities"><i class="fa-solid fa-martini-glass-citrus text-xl"></i></button>
+                         <div class="filter-popup">
+                            <div class="glassy p-4">
+                                <p class="font-bold mb-3">Filter Amenities</p>
+                                <div id="amenity-subfilters" class="flex flex-wrap gap-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="filter-popup-container">
+                        <button class="heatmap-toggle bg-white hover:bg-opacity-75 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all" data-heatmap="culture" title="Culture & Vibe"><i class="fa-solid fa-users text-xl"></i></button>
+                         <div class="filter-popup">
+                            <div class="glassy p-4">
+                                <p class="font-bold mb-3">Filter by Vibe</p>
+                                <div id="culture-subfilters" class="flex flex-wrap gap-2"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="w-8 h-px bg-gray-400 opacity-50 my-2"></div>
+                    <button id="threshold-toggle-btn" class="bg-white hover:bg-opacity-75 text-white w-14 h-14 rounded-full flex items-center justify-center shadow-lg transition-all" title="Toggle Threshold"><i class="fa-solid fa-sliders text-xl"></i></button>
+                </div>
+            </main>
+
+            <aside id="listings-panel">
+                <div id="l2-filter-container">
+                    <div class="price-filter-section">
+                        <div class="price-filter-container">
+                            <input type="number" id="price-min" placeholder="Min Budget" class="price-input">
+                            <span>to</span>
+                            <input type="number" id="price-max" placeholder="Max Budget" class="price-input">
+                        </div>
+                    </div>
+                    <div class="filter-grid">
+                        <div class="filter-dropdown-container" data-filter-type="starRating">
+                            <button class="filter-dropdown-toggle" data-target="star-rating-panel">
+                                <div class="selected-options-container">
+                                    <span class="placeholder">Star Category</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div id="star-rating-panel" class="filter-dropdown-panel"></div>
+                        </div>
+                
+                        <div class="filter-dropdown-container" data-filter-type="userRating">
+                            <button class="filter-dropdown-toggle" data-target="user-rating-panel">
+                                <div class="selected-options-container">
+                                    <span class="placeholder">User Rating</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div id="user-rating-panel" class="filter-dropdown-panel"></div>
+                        </div>
+                
+                        <div class="filter-dropdown-container" data-filter-type="propertyType">
+                            <button class="filter-dropdown-toggle" data-target="property-type-panel">
+                                <div class="selected-options-container">
+                                    <span class="placeholder">Property Type</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div id="property-type-panel" class="filter-dropdown-panel"></div>
+                        </div>
+                
+                        <div class="filter-dropdown-container" data-filter-type="amenities">
+                            <button class="filter-dropdown-toggle" data-target="amenities-panel">
+                                <div class="selected-options-container">
+                                    <span class="placeholder">Amenities</span>
+                                </div>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div id="amenities-panel" class="filter-dropdown-panel"></div>
+                        </div>
+                    </div>
+                </div>
+                <button id="back-to-all-btn" class="hidden">
+                    <i class="fa-solid fa-arrow-left"></i> Back to all listings
+                </button>
+                <div id="listings-results-container" class="custom-scrollbar"></div>
+            </aside>
+        </div>
+    </div>
+
+    <script src="data.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>
